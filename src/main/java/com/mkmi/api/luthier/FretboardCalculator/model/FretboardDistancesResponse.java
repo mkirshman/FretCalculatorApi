@@ -3,6 +3,7 @@ package com.mkmi.api.luthier.FretboardCalculator.model;
 import java.util.ArrayList;
 
 public class FretboardDistancesResponse {
+	private String svg;
     private ArrayList<Double> distanceFromNut;
     private ArrayList<Double> fretToFretDistance;
 
@@ -25,6 +26,14 @@ public class FretboardDistancesResponse {
 
 	public void setFretToFretDistance(ArrayList<Double> fretToFretDistance) {
 		this.fretToFretDistance = fretToFretDistance;
+	}
+
+	public String getSvg() {
+		return svg;
+	}
+
+	public void setSvg(String svg) {
+		this.svg = svg;
 	}
 
     // Add getters and setters for the fields

@@ -33,6 +33,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    <groupId>org.apache.xmlgraphics</groupId>
+	    <artifactId>batik-swing</artifactId>
+	    <version>1.14</version> <!-- Replace with the version you downloaded -->
+	</dependency>
 	</dependencies>
 
 	<build>
