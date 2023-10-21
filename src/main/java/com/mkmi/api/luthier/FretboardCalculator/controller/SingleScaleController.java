@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mkmi.api.luthier.FretboardCalculator.model.FretboardDistancesResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/mk-fretboard-calculator/single-scale")
@@ -46,11 +47,17 @@ public class SingleScaleController {
         		+ "<path class=\"cls-1\" d=\"M79.93,1.33C98.74-9.38,135.7,71.8,158.5,70.72c2.08-.1,99.28,283.29,96.26,285.57-63.54,47.89-68.77,65.58-69.14,135.2-.05,9.58.11,46,.35,88.15L197,2116.75v.07a18.29,18.29,0,0,1-18,18.6H59.26a18,18,0,0,1-18-18l0-2.36L51.35,737.33H50.7c.15-15,1.34-110.19,1.95-178.14L53,516.58h0c.08-12.33.08-21.27,0-25.09.06-15.05-20.65-41.67-52.56-49-1.93-.44,73.51-211.47,74.09-213.61,73.45-2.11,5.38-225.31,5.44-227.59\"/>\r\n"
         		+ "</g>");
 
-        // Rest of your SVG markup...
+        double initialX1 = 53.36;
+        double finalX1 = 45.36;
+        double x1Increment = (finalX1 - initialX1) / (fretCount - 1); // Subtract 1 because you're including the first fret.
+        double x1 = initialX1;
 
-        double x1 = 53.36;
-        double x2 = 185.36;
-        double yCoordinate = 503.2;
+        double initialX2 = 185.36;
+        double finalX2 = 196.36;
+        double x2Increment = (finalX2 - initialX2) / (fretCount - 1); // Subtract 1 because you're including the first fret.
+        double x2 = initialX2;
+      
+        double yCoordinate = 23.6;
    
 
         ArrayList<Double> distanceFromNut = new ArrayList<>();
@@ -61,25 +68,48 @@ public class SingleScaleController {
         if ("mm".equals(measurementUnit)) {
             scaleLength /= 25.4;
         }
-
+        
+        
+     
+        
         for (int i = 0; i < fretCount; i++) {
             // Calculate fret position here based on scaleLength
+        	//percentages = [(distance - 0) / (total_length - 0) * 100 for distance in distanceFromNut]
+        	 fretPosition = scaleLength / 17.817;
+             cumulativeDistance += fretPosition;
+             scaleLength -= fretPosition;
 
-            // Append a line element to the SVG markup with updated x1 and x2 values
-        	svgBuilder.append("<line class=\"cls-1\" x1=\"").append(x1).append("\" y1=\"").append(yCoordinate)
-            .append("\" x2=\"").append(x2).append("\" y2=\"").append(yCoordinate).append("\"/>\n");
+             if ("mm".equals(measurementUnit)) {
+                 fretPosition *= 25.4;
+             }
+             // Populate distanceFromNut and fretToFretDistance
+             // Append distances to the lists
+             
+             distanceFromNut.add((double) Math.round(cumulativeDistance * 10000) / 10000);
+             fretToFretDistance.add((double) Math.round(fretPosition * 10000) / 10000);
 
+            
+            
 
-            // Update x1 and x2 for the next fret position
-            yCoordinate += (double) Math.round(cumulativeDistance * 10000) / 10000;
+        }
+        
+        // Total length in inches
 
-            // Calculate fret distances and populate distanceFromNut and fretToFretDistance
-            // Append distances to the lists
-            distanceFromNut.add((double) Math.round(fretPosition * 10000) / 10000);
-            fretToFretDistance.add((double) Math.round(cumulativeDistance * 10000) / 10000);
-
-            // Update cumulativeDistance and fretPosition for the next fret position
-            // You can use the same calculation logic as in your original code
+        List<Double> percentages = new ArrayList<>();
+        
+        for (double distance : distanceFromNut) {
+            percentages.add((distance - 0) / (cumulativeDistance - 0) * 98);
+        }
+        
+        for (double percentage : percentages) {
+//        	yCoordinate = 23.6 + (percentage * 0.776);
+        	// Append a line element to the SVG markup with updated x1 and x2 values
+        	svgBuilder.append("<line class=\"cls-1\" x1=\"").append(x1).append("\" y1=\"").append(yCoordinate+"%")
+            .append("\" x2=\"").append(x2).append("\" y2=\"").append(yCoordinate+"%").append("\"/>\n");
+        	yCoordinate = 23.6 + (percentage * 0.776);
+        	// Update x1 and x2 for the next fret position
+            x1 += x1Increment;
+            x2 += x2Increment;
 
         }
 
@@ -93,13 +123,14 @@ public class SingleScaleController {
 
 
         // Create a FretPlacementResponse object to hold SVG and distance data
-        FretboardDistancesResponse response = new FretboardDistancesResponse(fretToFretDistance, fretToFretDistance);
+        FretboardDistancesResponse response = new FretboardDistancesResponse(distanceFromNut, fretToFretDistance);
         response.setSvg(svgOutput);
         response.setFretToFretDistance(fretToFretDistance);
         response.setDistanceFromNut(distanceFromNut);
 
         return ResponseEntity.ok(response);
     }
+    
 
     private boolean isValidMeasurementUnit(String unit) {
         return unit != null && (unit.equals("mm") || unit.equals("inch"));
