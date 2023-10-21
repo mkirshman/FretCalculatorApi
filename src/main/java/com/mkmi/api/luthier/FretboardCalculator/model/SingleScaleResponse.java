@@ -2,12 +2,12 @@ package com.mkmi.api.luthier.FretboardCalculator.model;
 
 import java.util.ArrayList;
 
-public class FretboardDistancesResponse {
+public class SingleScaleResponse {
 	private String svg;
     private ArrayList<Double> distanceFromNut;
     private ArrayList<Double> fretToFretDistance;
 
-    public FretboardDistancesResponse(ArrayList<Double> distanceFromNut, ArrayList<Double> fretToFretDistance) {
+    public SingleScaleResponse(ArrayList<Double> distanceFromNut, ArrayList<Double> fretToFretDistance) {
         this.setDistanceFromNut(distanceFromNut);
         this.setFretToFretDistance(fretToFretDistance);
     }

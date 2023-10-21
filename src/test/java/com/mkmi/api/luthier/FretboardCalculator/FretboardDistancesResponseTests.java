@@ -1,6 +1,6 @@
 package com.mkmi.api.luthier.FretboardCalculator;
 
-import com.mkmi.api.luthier.FretboardCalculator.model.FretboardDistancesResponse;
+import com.mkmi.api.luthier.FretboardCalculator.model.SingleScaleResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ public class FretboardDistancesResponseTests {
         ArrayList<Double> fretToFretDistance = new ArrayList<>();
         String svg = "<svg>Sample SVG</svg>";
 
-        // Create an instance of FretboardDistancesResponse
-        FretboardDistancesResponse response = new FretboardDistancesResponse(distanceFromNut, fretToFretDistance);
+        // Create an instance of SingleScaleResponse
+        SingleScaleResponse response = new SingleScaleResponse(distanceFromNut, fretToFretDistance);
         response.setSvg(svg);
 
         // Check if the getters return the expected values
@@ -27,8 +27,8 @@ public class FretboardDistancesResponseTests {
 
     @Test
     public void testSetters() {
-        // Create an instance of FretboardDistancesResponse
-        FretboardDistancesResponse response = new FretboardDistancesResponse(new ArrayList<>(), new ArrayList<>());
+        // Create an instance of SingleScaleResponse
+        SingleScaleResponse response = new SingleScaleResponse(new ArrayList<>(), new ArrayList<>());
 
         // Test the setters
         ArrayList<Double> distanceFromNut = new ArrayList<>();

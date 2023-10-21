@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mkmi.api.luthier.FretboardCalculator.model.FretboardDistancesResponse;
+import com.mkmi.api.luthier.FretboardCalculator.model.SingleScaleResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class SingleScaleController {
 
     @GetMapping
-    public ResponseEntity<FretboardDistancesResponse> generateFretboardSVG(
+    public static ResponseEntity<SingleScaleResponse> generateFretboardSVG(
             @RequestParam("scaleLength") double scaleLength,
             @RequestParam("fretCount") int fretCount,
             @RequestParam("measurementUnit") String measurementUnit) {
@@ -122,8 +122,8 @@ public class SingleScaleController {
 
 
 
-        // Create a FretPlacementResponse object to hold SVG and distance data
-        FretboardDistancesResponse response = new FretboardDistancesResponse(distanceFromNut, fretToFretDistance);
+        // Create a MultiScaleResponse object to hold SVG and distance data
+        SingleScaleResponse response = new SingleScaleResponse(distanceFromNut, fretToFretDistance);
         response.setSvg(svgOutput);
         response.setFretToFretDistance(fretToFretDistance);
         response.setDistanceFromNut(distanceFromNut);
@@ -132,7 +132,7 @@ public class SingleScaleController {
     }
     
 
-    private boolean isValidMeasurementUnit(String unit) {
+    private static boolean isValidMeasurementUnit(String unit) {
         return unit != null && (unit.equals("mm") || unit.equals("inch"));
     }
 }

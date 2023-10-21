@@ -1,7 +1,7 @@
 package com.mkmi.api.luthier.FretboardCalculator;
 
 import com.mkmi.api.luthier.FretboardCalculator.controller.SingleScaleController;
-import com.mkmi.api.luthier.FretboardCalculator.model.FretboardDistancesResponse;
+import com.mkmi.api.luthier.FretboardCalculator.model.SingleScaleResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +23,8 @@ public class SingleScaleControllerTests {
         int fretCount = 24; // Replace with your desired fret count
         String measurementUnit = "mm"; // Replace with your desired measurement unit
 
-        ResponseEntity<FretboardDistancesResponse> response = controller.generateFretboardSVG(scaleLength, fretCount, measurementUnit);
-        FretboardDistancesResponse responseBody = response.getBody();
+        ResponseEntity<SingleScaleResponse> response = controller.generateFretboardSVG(scaleLength, fretCount, measurementUnit);
+        SingleScaleResponse responseBody = response.getBody();
 
         // Perform assertions on the response
         assertEquals(200, response.getStatusCode().value()); // Check if the response status is OK
@@ -39,7 +39,7 @@ public class SingleScaleControllerTests {
         int fretCount = 24; // Replace with your desired fret count
         String invalidUnit = "invalid"; // An invalid measurement unit
 
-        ResponseEntity<FretboardDistancesResponse> response = controller.generateFretboardSVG(scaleLength, fretCount, invalidUnit);
+        ResponseEntity<SingleScaleResponse> response = controller.generateFretboardSVG(scaleLength, fretCount, invalidUnit);
 
         // Check if the response status is Bad Request (400) for an invalid measurement unit
         assertEquals(400, response.getStatusCode().value());
