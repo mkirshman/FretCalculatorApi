@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.mkmi.api.luthier</groupId>
 	<artifactId>FretboardTool</artifactId>
@@ -36,7 +36,7 @@
 		<dependency>
     <groupId>org.apache.xmlgraphics</groupId>
 	    <artifactId>batik-swing</artifactId>
-	    <version>1.14</version> <!-- Replace with the version you downloaded -->
+	    <version>1.14</version>
 	</dependency>
 	</dependencies>
 

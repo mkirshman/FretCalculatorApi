@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mkmi.api.luthier.FretboardCalculator.model.MultiScaleResponse;
 import com.mkmi.api.luthier.FretboardCalculator.model.SingleScaleResponse;
 
-import java.util.ArrayList;
-
 @RestController
 @RequestMapping("/mk-fretboard-calculator/multi-scale")
 public class MultiScaleController {
